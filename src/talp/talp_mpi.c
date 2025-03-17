@@ -118,6 +118,20 @@ static void talp_register_common_mpi_regions(const subprocess_descriptor_t *spd)
 }
 #endif
 
+static TALP_Collective_Callback callback;
+static int num_callbacks = 0;
+
+int talp_notify_on_collective(TALP_Collective_Callback cb) {
+  callback = cb;
+  num_callbacks = 1;
+  return 1;
+}
+
+static void notify_collective_callbacks() {
+  if (num_callbacks) {
+    callback();
+  }
+}
 
 /*********************************************************************************/
 /*    TALP MPI functions                                                         */
@@ -250,6 +264,8 @@ void talp_out_of_sync_call(const subprocess_descriptor_t *spd, bool is_blocking_
         talp_sample_t *sample = talp_get_thread_sample(spd);
         DLB_ATOMIC_ADD_RLX(&sample->stats.num_mpi_calls, 1);
         update_sample_on_sync_call(spd, talp_info, sample, is_blocking_collective);
+
+        notify_collective_callbacks();
 
         /* Out of Sync call -> useful */
         talp_set_sample_state(sample, useful, talp_info->flags.papi);

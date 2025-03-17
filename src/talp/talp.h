@@ -53,6 +53,7 @@ void talp_flush_sample_subset_to_regions(const subprocess_descriptor_t *spd,
 /* TALP collect functions for 3rd party programs */
 int talp_query_pop_node_metrics(const char *name, struct dlb_node_metrics_t *node_metrics);
 
+int talp_notify_on_collective(TALP_Collective_Callback);
 
 /* TALP collect functions for 1st party programs */
 int talp_collect_pop_metrics(const subprocess_descriptor_t *spd,

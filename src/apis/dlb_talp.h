@@ -424,6 +424,10 @@ int DLB_MonitoringRegionsUpdate(void);
  */
 int DLB_TALP_CollectPOPMetrics(dlb_monitor_t *monitor, dlb_pop_metrics_t *pop_metrics);
 
+typedef void(*TALP_Collective_Callback)();
+
+int DLB_TALP_NotifyOnCollective(TALP_Collective_Callback);
+
 /*! \brief Perform a node collective communication to collect TALP node metrics.
  *  \param[in] monitor Monitoring handle that identifies the region,
  *                     or DLB_GLOBAL_REGION macro (NULL) if global application-wide region

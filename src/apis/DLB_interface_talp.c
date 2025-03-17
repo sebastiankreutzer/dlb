@@ -241,6 +241,16 @@ int DLB_TALP_CollectPOPMetrics(dlb_monitor_t *monitor, dlb_pop_metrics_t *pop_me
 }
 
 DLB_EXPORT_SYMBOL
+int DLB_TALP_NotifyOnCollective(TALP_Collective_Callback cb) {
+  spd_enter_dlb(thread_spd);
+  if (unlikely(!thread_spd->talp_info)) {
+    return DLB_ERR_NOTALP;
+  }
+  return talp_notify_on_collective(cb);
+}
+
+
+DLB_EXPORT_SYMBOL
 int DLB_TALP_CollectPOPNodeMetrics(dlb_monitor_t *monitor, dlb_node_metrics_t *node_metrics) {
     spd_enter_dlb(thread_spd);
     if (unlikely(!thread_spd->talp_info)) {
